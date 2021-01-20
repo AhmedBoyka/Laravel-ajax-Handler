@@ -3,17 +3,17 @@
 namespace App\Exceptions;
 
 
-use App\Exceptions\TenantException;
 
 
-use App\Helpers\ProjectHelpers;
+
+
 use BadMethodCallException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
-use Psy\Exception\ParseErrorException;
+use ParseErrorException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
@@ -67,8 +67,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        //get currentGuard
-        //$currentGuard=ProjectHelpers::getCurrentGuard();
+        
         $exceptionMessage=$exception->getMessage();
         $statutCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;//Internal server error default Http Code
         $response['code'] = method_exists($exception, 'getCode') ? $exception->getCode() : $statutCode;//custom error code, default   will be same a statusCode
@@ -115,11 +114,8 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json(['errors' => ['status' => 401, 'message' => $exception->getMessage()]], 401);
         }
-        $currentGuard = Arr::get($exception->guards(), 0);
-        //depending to Guard Redirect to related login page
-        $loginRouteName = ProjectHelpers::getLoginRouteName($currentGuard);
-
-        return redirect()->guest(route($loginRouteName));
+      
+        return redirect()->guest(route('login'));
 
 
     }
