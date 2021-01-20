@@ -1,2 +1,2 @@
 # Laravel-ajax-Handler
-custom handler to  catch  Laravel exception and render view or Json
+custom handler to  catch  Laravel exceptions , give custom error message  and render view or Json
