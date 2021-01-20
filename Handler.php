@@ -2,11 +2,6 @@
 
 namespace App\Exceptions;
 
-
-
-
-
-
 use BadMethodCallException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Session\TokenMismatchException;
@@ -66,8 +61,7 @@ class Handler extends ExceptionHandler
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
-    {
-        
+    {        
         $exceptionMessage=$exception->getMessage();
         $statutCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;//Internal server error code default Http Code
         $response['code'] = method_exists($exception, 'getCode') ? $exception->getCode() : $statutCode;//custom error code, default   will be same a statusCode
@@ -109,14 +103,10 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-
-
         if ($request->expectsJson()) {
             return response()->json(['errors' => ['status' => 401, 'message' => $exception->getMessage()]], 401);
         }
       
         return redirect()->guest(route('login'));
-
-
     }
 }
