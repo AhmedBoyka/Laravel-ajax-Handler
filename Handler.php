@@ -69,9 +69,9 @@ class Handler extends ExceptionHandler
     {
         
         $exceptionMessage=$exception->getMessage();
-        $statutCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;//Internal server error default Http Code
+        $statutCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;//Internal server error code default Http Code
         $response['code'] = method_exists($exception, 'getCode') ? $exception->getCode() : $statutCode;//custom error code, default   will be same a statusCode
-        $response['message'] =  'An error happened' ;//set by defaul to avoid showing sensitive data to user
+        $response['message'] =  'An error happened' ;//set by default to avoid showing sensitive data to user
         $response['status']=false;
         if ($exception instanceof QueryException)
             return $exception->render($request);
